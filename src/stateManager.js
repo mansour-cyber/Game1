@@ -53,12 +53,13 @@ export class StateManager {
         break;
       }
 
-      case STATE.LEVEL_WIN:
+      case STATE.LEVEL_WIN: {
         // Award star + unlock next
         this.game.save.awardStar(this.currentLevelId);
         const nextId = this.currentLevelId + 1;
         if (nextId <= TOTAL_LEVELS) this.game.save.unlockLevel(nextId);
         break;
+      }
 
       case STATE.GAME_COMPLETE:
         this.game.audio.stopMusic();
@@ -95,20 +96,27 @@ export class StateManager {
 
   _updatePlaying(dt) {
     const lm = this.game.levelManager;
+
+    // Intercept pause button click BEFORE level mechanics consume clicks
+    const rawClicks = this.game.input.consumeClicks();
+    let pauseClicked = false;
+    for (const c of rawClicks) {
+      if (c.x > 756 && c.x < 800 && c.y > 0 && c.y < 48) {
+        pauseClicked = true;
+      } else {
+        this.game.input.clicks.push(c); // return non-pause clicks for level use
+      }
+    }
+    if (pauseClicked) {
+      this.setState(STATE.PAUSED);
+      this.game.audio.sfxClick();
+      return;
+    }
+
     lm.update(dt);
 
-    // Check pause button click (top-right area)
-    const clicks = this.game.input.consumeClicks();
-    for (const c of clicks) {
-      if (c.x > 756 && c.x < 800 && c.y > 0 && c.y < 48) {
-        this.game.input.clicks.push(...clicks.filter(x => x !== c)); // put others back
-        this.setState(STATE.PAUSED);
-        this.game.audio.sfxClick();
-        return;
-      }
-      // Also push all clicks back for level use
-      this.game.input.clicks.push(c);
-    }
+    // Discard any unconsumed clicks (prevents phantom presses on win/fail panels)
+    this.game.input.clicks.length = 0;
 
     // Check won / failed
     if (lm.isWon()) {

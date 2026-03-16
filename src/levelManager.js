@@ -966,6 +966,8 @@ export class LevelManager {
         en.y += en.vy * dt;
         if (en.x < 20 || en.x > W - 60) { en.vx *= -1; }
         if (en.y < 55 || en.y > H - 60) { en.vy *= -1; }
+        en.x = clamp(en.x, 10, W - 50); en.y = clamp(en.y, 55, H - 60);
+        continue;
       }
       en.x += en.vx * dt; en.y += en.vy * dt;
       en.x = clamp(en.x, 10, W - 50); en.y = clamp(en.y, 55, H - 60);
@@ -1058,7 +1060,10 @@ export class LevelManager {
 
     // Phase from HP
     const phase = Math.min(lv.phases ? lv.phases.length - 1 : 0, lv.bossHp - s.bossHp);
-    if (lv.phases) s.attackFreq = lv.phases[phase].attackFreq;
+    if (lv.phases) {
+      s.attackFreq = lv.phases[phase].attackFreq;
+      s.bossVx = lv.phases[phase].speed;
+    }
 
     // Boss movement
     if (s.bossState === 'moving') {
