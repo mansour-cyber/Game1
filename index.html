@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ألنوج — دهن العود الخاص</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:       #C9A55A;
+      --gold-light: #E2C47A;
+      --brown:      #2C1010;
+      --brown-mid:  #4A1E1E;
+      --cream:      #F5ECD7;
+      --cream-dim:  #D9C9A8;
+      --black:      #080808;
+      --smoke:      rgba(201, 165, 90, 0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: var(--black);
+      color: var(--cream);
+      overflow-x: hidden;
+      line-height: 1.7;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+    /* ===== UTILITY ===== */
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    .gold { color: var(--gold); }
+    .divider {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 24px auto;
+    }
+    .diamond { display: inline-block; width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); margin: 0 8px; }
+
+    /* ===== SCARCITY TOP BAR ===== */
+    .scarcity-bar {
+      background: linear-gradient(90deg, var(--brown), var(--brown-mid), var(--brown));
+      text-align: center;
+      padding: 10px 20px;
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: var(--gold-light);
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid rgba(201,165,90,0.2);
+    }
+    .scarcity-bar span { font-weight: 700; font-size: 15px; }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: radial-gradient(ellipse at 50% 30%, #1a0a0a 0%, #000 70%);
+    }
+
+    /* Video placeholder — swap src when video is ready */
+    .hero-video-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .hero-video-wrap video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.55;
+    }
+    .hero-video-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: radial-gradient(ellipse at 50% 40%, #2a1010 0%, #080808 65%);
+      color: rgba(201,165,90,0.35);
+      font-size: 13px;
+      letter-spacing: 3px;
+    }
+    .hero-video-placeholder .play-icon {
+      width: 56px; height: 56px;
+      border: 1.5px solid rgba(201,165,90,0.4);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      color: rgba(201,165,90,0.5);
+    }
+
+    /* Spotlight beam */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -10%; left: 50%; transform: translateX(-50%);
+      width: 300px; height: 60%;
+      background: radial-gradient(ellipse at top, rgba(201,165,90,0.12) 0%, transparent 70%);
+      z-index: 1; pointer-events: none;
+    }
+
+    .hero-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to bottom,
+        rgba(8,8,8,0.3) 0%,
+        rgba(8,8,8,0.1) 40%,
+        rgba(8,8,8,0.7) 80%,
+        rgba(8,8,8,1) 100%);
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 120px 24px 80px;
+      display: flex; flex-direction: column; align-items: center;
+    }
+
+    .hero-logo {
+      width: 220px; margin-bottom: 40px;
+      filter: brightness(0) invert(1) sepia(1) saturate(2) hue-rotate(5deg) brightness(0.9);
+      opacity: 0.9;
+    }
+
+    .hero-tagline {
+      font-size: clamp(28px, 6vw, 52px);
+      font-weight: 300;
+      letter-spacing: 1px;
+      line-height: 1.4;
+      color: var(--cream);
+      max-width: 600px;
+    }
+    .hero-tagline strong {
+      display: block;
+      font-weight: 700;
+      color: var(--gold);
+      font-size: clamp(32px, 7vw, 60px);
+    }
+
+    .hero-sub {
+      margin-top: 16px;
+      font-size: 14px;
+      letter-spacing: 4px;
+      color: var(--cream-dim);
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .hero-badges {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 40px;
+    }
+    .badge {
+      border: 1px solid rgba(201,165,90,0.35);
+      padding: 8px 20px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      background: rgba(201,165,90,0.06);
+    }
+
+    .hero-cta {
+      margin-top: 48px;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), #A07A35);
+      color: var(--black);
+      font-family: 'Tajawal', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      padding: 16px 52px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(201,165,90,0.3);
+    }
+
+    .availability-note {
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: var(--cream-dim);
+      opacity: 0.6;
+    }
+
+    /* ===== UNITS COUNTER ===== */
+    .units-section {
+      padding: 60px 24px;
+      text-align: center;
+      background: linear-gradient(to bottom, var(--black), #100505, var(--black));
+    }
+    .units-label {
+      font-size: 12px; letter-spacing: 4px; color: var(--cream-dim); opacity: 0.6; margin-bottom: 24px;
+    }
+    .units-grid {
+      display: flex; justify-content: center; gap: 16px;
+    }
+    .unit-box {
+      width: 64px; height: 64px;
+      border: 1px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; font-weight: 700;
+      color: var(--gold);
+      position: relative;
+      background: rgba(201,165,90,0.05);
+    }
+    .unit-box.sold {
+      opacity: 0.2;
+      border-color: rgba(201,165,90,0.2);
+    }
+    .unit-box.sold::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        45deg, transparent, transparent 8px,
+        rgba(201,165,90,0.15) 8px, rgba(201,165,90,0.15) 9px
+      );
+    }
+    .units-desc {
+      margin-top: 24px; font-size: 14px;
+      color: var(--cream-dim); opacity: 0.7; letter-spacing: 1px;
+    }
+
+    /* ===== PRODUCT SECTION ===== */
+    .product-section {
+      padding: 80px 24px;
+    }
+    .product-inner {
+      max-width: 900px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .product-image-wrap {
+      position: relative;
+    }
+    .product-image-wrap img {
+      width: 100%;
+      display: block;
+      border-radius: 2px;
+    }
+    .product-image-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      background: linear-gradient(135deg, rgba(201,165,90,0.2), transparent, rgba(201,165,90,0.1));
+      pointer-events: none;
+      z-index: 1;
+    }
+    .glow-ring {
+      position: absolute;
+      inset: -20px;
+      border-radius: 4px;
+      background: radial-gradient(ellipse at center, rgba(201,165,90,0.08) 0%, transparent 70%);
+      z-index: 0;
+    }
+
+    .product-info {}
+    .product-eyebrow {
+      font-size: 11px; letter-spacing: 4px;
+      color: var(--gold); margin-bottom: 16px; opacity: 0.8;
+    }
+    .product-name {
+      font-size: clamp(36px, 5vw, 52px);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .product-subtitle {
+      font-size: 14px; letter-spacing: 2px;
+      color: var(--gold); margin-bottom: 32px; opacity: 0.8;
+    }
+    .product-desc {
+      font-size: 15px; font-weight: 300;
+      color: var(--cream-dim);
+      line-height: 1.9;
+      margin-bottom: 36px;
+      opacity: 0.85;
+    }
+
+    .notes-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+      margin-bottom: 36px;
+    }
+    .note-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; color: var(--cream-dim);
+    }
+    .note-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gold); flex-shrink: 0;
+    }
+
+    .product-price {
+      font-size: 28px; font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+    .product-price small {
+      font-size: 14px; font-weight: 300;
+      color: var(--cream-dim); margin-right: 8px;
+    }
+
+    /* ===== VIDEO SECTION ===== */
+    .video-section {
+      padding: 80px 24px;
+      background: #050505;
+      text-align: center;
+    }
+    .section-title {
+      font-size: clamp(20px, 4vw, 32px);
+      font-weight: 300;
+      color: var(--cream);
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+    .section-title strong { color: var(--gold); font-weight: 700; }
+
+    .video-frame {
+      max-width: 700px;
+      margin: 48px auto 0;
+      position: relative;
+      background: #0f0505;
+      border: 1px solid rgba(201,165,90,0.2);
+      aspect-ratio: 9/16;
+      max-height: 80vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+      color: rgba(201,165,90,0.3);
+    }
+    /* When video is ready, place it inside .video-frame as <video> or <iframe> */
+    .video-frame .vf-icon {
+      width: 72px; height: 72px;
+      border: 1.5px solid rgba(201,165,90,0.35);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+      transition: border-color 0.3s, color 0.3s;
+      cursor: pointer;
+    }
+    .video-frame:hover .vf-icon {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .video-frame p { font-size: 12px; letter-spacing: 3px; }
+
+    /* Corner decorations */
+    .video-frame::before,
+    .video-frame::after {
+      content: '';
+      position: absolute;
+      width: 20px; height: 20px;
+      border-color: var(--gold);
+      border-style: solid;
+    }
+    .video-frame::before { top: 12px; right: 12px; border-width: 1px 1px 0 0; }
+    .video-frame::after  { bottom: 12px; left: 12px; border-width: 0 0 1px 1px; }
+
+    /* ===== STORY SECTION ===== */
+    .story-section {
+      padding: 100px 24px;
+      background: radial-gradient(ellipse at 50% 0%, #1a0808 0%, var(--black) 60%);
+      text-align: center;
+    }
+    .story-text {
+      max-width: 620px;
+      margin: 0 auto;
+      font-size: clamp(15px, 2.5vw, 18px);
+      font-weight: 300;
+      color: var(--cream-dim);
+      line-height: 2;
+      opacity: 0.85;
+    }
+    .story-text em {
+      font-style: normal;
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    /* ===== SPECS ===== */
+    .specs-section {
+      padding: 80px 24px;
+      background: #050505;
+    }
+    .specs-grid {
+      max-width: 700px;
+      margin: 48px auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(201,165,90,0.1);
+      border: 1px solid rgba(201,165,90,0.1);
+    }
+    .spec-cell {
+      background: #080808;
+      padding: 32px 20px;
+      text-align: center;
+    }
+    .spec-number {
+      font-size: 32px; font-weight: 700;
+      color: var(--gold); display: block; margin-bottom: 8px;
+    }
+    .spec-label {
+      font-size: 11px; letter-spacing: 3px;
+      color: var(--cream-dim); opacity: 0.6;
+    }
+
+    /* ===== FINAL CTA ===== */
+    .final-cta {
+      padding: 120px 24px;
+      text-align: center;
+      background: linear-gradient(to bottom, var(--black), #0f0303, var(--black));
+      position: relative;
+      overflow: hidden;
+    }
+    .final-cta::before {
+      content: 'ألنوج';
+      position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      font-size: clamp(100px, 25vw, 220px);
+      font-weight: 700;
+      color: rgba(201,165,90,0.025);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+    }
+    .final-cta-inner { position: relative; z-index: 1; }
+    .final-headline {
+      font-size: clamp(24px, 5vw, 44px);
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .final-headline strong { color: var(--gold); font-weight: 700; }
+    .final-sub {
+      font-size: 13px; letter-spacing: 3px;
+      color: var(--cream-dim); opacity: 0.5;
+      margin-bottom: 48px;
+    }
+    .urgency-chips {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      justify-content: center; margin-bottom: 40px;
+    }
+    .chip {
+      font-size: 11px; letter-spacing: 2px;
+      color: var(--gold);
+      border: 1px solid rgba(201,165,90,0.3);
+      padding: 6px 14px;
+      background: rgba(201,165,90,0.04);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      border-top: 1px solid rgba(201,165,90,0.1);
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .footer-logo {
+      width: 100px; margin: 0 auto 16px;
+      filter: brightness(0) invert(1) sepia(1) saturate(2) hue-rotate(5deg) brightness(0.6);
+      opacity: 0.5;
+    }
+    footer p {
+      font-size: 11px; letter-spacing: 2px;
+      color: var(--cream-dim); opacity: 0.3;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 700px) {
+      .product-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .product-image-wrap { max-width: 320px; margin: 0 auto; }
+      .specs-grid { grid-template-columns: repeat(3, 1fr); }
+      .notes-grid { grid-template-columns: 1fr; }
+      .hero-badges { gap: 10px; }
+      .badge { font-size: 11px; padding: 6px 14px; }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.06; }
+      50%       { opacity: 0.12; }
+    }
+    .hero-content > * {
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+    .hero-content > *:nth-child(2) { animation-delay: 0.25s; }
+    .hero-content > *:nth-child(3) { animation-delay: 0.4s; }
+    .hero-content > *:nth-child(4) { animation-delay: 0.55s; }
+    .hero-content > *:nth-child(5) { animation-delay: 0.7s; }
+
+    .glow-ring { animation: pulse-glow 4s ease-in-out infinite; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ SCARCITY BAR ═══ -->
+  <div class="scarcity-bar">
+    <span class="diamond"></span>
+    تبقّى <span>٣ نسخ فقط</span> — هذا الدهن لن يُعاد تكراره
+    <span class="diamond"></span>
+  </div>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero-video-wrap">
+      <!--
+        ضع الفيديو هنا عند الجاهزية:
+        <video autoplay muted loop playsinline poster="bottle.jpg">
+          <source src="alnouj-hero.mp4" type="video/mp4" />
+        </video>
+      -->
+      <div class="hero-video-placeholder">
+        <div class="play-icon">▶</div>
+        <p>HERO VIDEO — KLING 3</p>
+      </div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <!-- Logo -->
+      <img
+        class="hero-logo"
+        src="logo.png"
+        alt="ألنوج"
+        onerror="this.style.display='none'; document.querySelector('.hero-logo-text').style.display='block'"
+      />
+      <div class="hero-logo-text" style="display:none; font-size:48px; font-weight:700; color:var(--gold); margin-bottom:40px;">ألنوج</div>
+
+      <!-- Tagline -->
+      <div class="hero-tagline">
+        <strong>دهن العود الخاص</strong>
+        نسخة لا تُكرَّر
+      </div>
+      <p class="hero-sub">حصريّاً · ثلاث نسخ · للأبد</p>
+
+      <!-- Badges -->
+      <div class="hero-badges">
+        <div class="badge">عود خام نقي</div>
+        <div class="badge">تعتيق ١٨ شهراً</div>
+        <div class="badge">نسخة مرقّمة</div>
+      </div>
+
+      <!-- CTA -->
+      <div class="hero-cta">
+        <a href="#order" class="btn-primary">احجز نسختك الآن</a>
+        <p class="availability-note">٣ قطع متاحة فقط · الطلبات تُعالَج خلال ٢٤ ساعة</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ UNITS COUNTER ═══ -->
+  <section class="units-section">
+    <p class="units-label">النسخ المتبقية</p>
+    <div class="units-grid">
+      <div class="unit-box">١</div>
+      <div class="unit-box">٢</div>
+      <div class="unit-box">٣</div>
+    </div>
+    <p class="units-desc">كل نسخة مرقّمة يدوياً — ثلاث فقط في الوجود</p>
+  </section>
+
+  <!-- ═══ PRODUCT ═══ -->
+  <section class="product-section">
+    <div class="product-inner">
+      <!-- Image -->
+      <div class="product-image-wrap">
+        <div class="glow-ring"></div>
+        <img
+          src="bottle.jpg"
+          alt="دهن ألنوج"
+          onerror="this.style.background='#1a0808'; this.style.height='500px'"
+        />
+      </div>
+
+      <!-- Info -->
+      <div class="product-info">
+        <p class="product-eyebrow">◆ &nbsp; نسخة خاصة محدودة &nbsp; ◆</p>
+        <h1 class="product-name">دهن<br /><span class="gold">ألنوج</span></h1>
+        <p class="product-subtitle">THE OUD PRIVATE EDITION</p>
+
+        <p class="product-desc">
+          دهن صُمِّم مرة واحدة ولن يُعاد.
+          عودٌ خام من أجود مصادره، أُتيح لـ١٨ شهراً قبل أن يُصبّ في ثلاث زجاجات فقط.
+          ليس منتجاً — بل ذاكرة مُقطَّرة.
+        </p>
+
+        <div class="notes-grid">
+          <div class="note-item"><span class="note-dot"></span>عود هندي خام</div>
+          <div class="note-item"><span class="note-dot"></span>ورد طائفي</div>
+          <div class="note-item"><span class="note-dot"></span>مسك أبيض</div>
+          <div class="note-item"><span class="note-dot"></span>عنبر دافئ</div>
+          <div class="note-item"><span class="note-dot"></span>صندل كامبودي</div>
+          <div class="note-item"><span class="note-dot"></span>زعفران خالص</div>
+        </div>
+
+        <div class="product-price">
+          <small>السعر</small>
+          ٣٨٥٠ ريال
+        </div>
+
+        <a href="#order" class="btn-primary">احجز نسختك</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ VIDEO SECTION ═══ -->
+  <section class="video-section">
+    <div class="divider"></div>
+    <h2 class="section-title"><strong>عالم</strong> ألنوج</h2>
+    <p style="font-size:13px; letter-spacing:2px; color:var(--cream-dim); opacity:0.5; margin-top:8px;">شاهد كيف يُولَد الدهن الاستثنائي</p>
+    <div class="divider"></div>
+
+    <!-- Video Container — ضع فيديو كلنق هنا -->
+    <div class="video-frame">
+      <!--
+        استبدل المحتوى أدناه بـ:
+        <video autoplay muted loop playsinline>
+          <source src="alnouj-cinematic.mp4" type="video/mp4" />
+        </video>
+      -->
+      <div class="vf-icon">▶</div>
+      <p>CINEMATIC REVEAL · KLING 3</p>
+    </div>
+  </section>
+
+  <!-- ═══ STORY ═══ -->
+  <section class="story-section">
+    <div class="divider"></div>
+    <h2 class="section-title" style="margin-bottom:32px;">
+      لماذا <strong>ثلاث</strong> فقط؟
+    </h2>
+    <p class="story-text">
+      لأن <em>الجودة الحقيقية لا تُكرَّر</em>.
+      حين يبلغ الدهن درجة الكمال، يصبح التقليل منه خيانة لروحه.
+      قرّرنا أن نصونه في ثلاث نسخ مرقّمة — لثلاثة أشخاص يعرفون
+      <em>فرق ما يمسّ الجلد</em>.
+    </p>
+    <div class="divider"></div>
+  </section>
+
+  <!-- ═══ SPECS ═══ -->
+  <section class="specs-section">
+    <div class="container" style="text-align:center;">
+      <h2 class="section-title"><strong>التفاصيل</strong></h2>
+      <div class="specs-grid">
+        <div class="spec-cell">
+          <span class="spec-number">١٨</span>
+          <span class="spec-label">شهراً تعتيق</span>
+        </div>
+        <div class="spec-cell">
+          <span class="spec-number">٣</span>
+          <span class="spec-label">نسخة حصرية</span>
+        </div>
+        <div class="spec-cell">
+          <span class="spec-number">١٢</span>
+          <span class="spec-label">مل نقي</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FINAL CTA ═══ -->
+  <section class="final-cta" id="order">
+    <div class="final-cta-inner">
+      <h2 class="final-headline">
+        لن تجد هذا الدهن<br /><strong>بعد اليوم</strong>
+      </h2>
+      <p class="final-sub">٣ نسخ · لن تُعاد · لن تُخفَّض</p>
+
+      <div class="urgency-chips">
+        <div class="chip">◆ &nbsp; نسخة مرقّمة يدوياً</div>
+        <div class="chip">◆ &nbsp; توصيل سريع</div>
+        <div class="chip">◆ &nbsp; تغليف فاخر</div>
+      </div>
+
+      <!-- WhatsApp / Order Link — غيّر الرقم -->
+      <a
+        href="https://wa.me/966XXXXXXXXX?text=أريد%20حجز%20نسختي%20من%20دهن%20ألنوج"
+        class="btn-primary"
+        target="_blank"
+        rel="noopener"
+      >
+        احجز عبر واتساب
+      </a>
+
+      <p style="margin-top:24px; font-size:12px; letter-spacing:2px; color:var(--cream-dim); opacity:0.4;">
+        الردّ خلال ساعة — الدفع عند الاستلام متاح
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <img
+      class="footer-logo"
+      src="logo.png"
+      alt="ألنوج"
+      onerror="this.style.display='none'"
+    />
+    <p>© ألنوج — نسخة خاصة محدودة</p>
+    <p style="margin-top:8px;">جميع الحقوق محفوظة</p>
+  </footer>
+
+</body>
+</html>
